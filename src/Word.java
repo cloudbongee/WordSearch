@@ -1,3 +1,5 @@
+package com.gradescope.wordsearch;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -55,19 +57,21 @@ public class Word {
         switch(direction){
             case VERTICAL:
                 for(int i = 0; i < this.length; i++){
-                    grid[row][col+i] = this.value.charAt(i);
+                    grid[row][col+i] = Character.toUpperCase(this.value.charAt(i));
                     letterCoordinates.put(this.value.charAt(i), new int[]{row, col+i, direction.ordinal()});
                 }
+                break;
             case HORIZONTAL:
                 for(int i = 0; i < this.length; i++){
-                    grid[row+i][col] = this.value.charAt(i);
+                    grid[row+i][col] =Character.toUpperCase(this.value.charAt(i));
                     letterCoordinates.put(this.value.charAt(i), new int[]{row + i, col, direction.ordinal()});
                 }
+                break;
             case DIAGONAL:
                 for(int i = 0; i < this.length; i++){
-                    grid[row+i][col+i] = this.value.charAt(i);
+                    grid[row+i][col+i] = Character.toUpperCase(this.value.charAt(i));
                     letterCoordinates.put(this.value.charAt(i), new int[]{row + i, col+i, direction.ordinal()});
-                }
+                }break;
         }
     }
 
@@ -100,77 +104,33 @@ public class Word {
         return direction;
     }
 
-    public void handleIntersect(HashMap<Character, int[]> letterCoordinates, Grid grid){
-        for(int i = 0; i < length; i++){
-            // if there is some letter that could intersect
-            if(letterCoordinates.containsKey(this.value.charAt(i))){
-                // if the letter has an opposing direction
-                if(letterCoordinates.get(this.value.charAt(i))[2] != this.direction.ordinal()){
-                    try {
-                        // assign row and columns to the coordinates, this is done by sliding the word position to the
-                        // letter position
-                        if (this.direction == Direction.VERTICAL) {
-                            this.row = letterCoordinates.get(this.value.charAt(i))[0];
-                            this.col = letterCoordinates.get(this.value.charAt(i))[1] - i;
-                        } else if (this.direction == Direction.HORIZONTAL) {
-                            this.row = letterCoordinates.get(this.value.charAt(i))[0] - i;
-                            this.col = letterCoordinates.get(this.value.charAt(i))[1];
-                        } else {
-                            this.row = letterCoordinates.get(this.value.charAt(i))[0] - i;
-                            this.col = letterCoordinates.get(this.value.charAt(i))[1] - i;
-                        }
-                        // check if the word is validly placed. If it is, remove from the list and return
-                        if (isValidlyPlaced(grid.grid)) {
-                            letterCoordinates.remove(this.value.charAt(i));
-                            return;
-                        }
-                    }catch (NullPointerException e){
-                        System.out.println(e.getMessage());
-                    }
+    public void handleIntersect(Grid grid){
+
+
+        if(this.direction == Direction.VERTICAL){
+            for(int i = 0; i < grid.grid.length - this.length; i++){ // add through the rows
+                for(int j = 0; j < grid.grid[0].length - col; j++){ // add through the columns
+                    this.row += i;
+                    this.col += j;
+                    if(isValidlyPlaced(grid.grid)) return;
+                }
+            }
+        }else if(this.direction == Direction.HORIZONTAL){
+            for(int i = 0; i < grid.grid.length - row; i++){
+                for(int j = 0; j < grid.grid[0].length - length; j++){
+                    this.row += i;
+                    if(isValidlyPlaced(grid.grid)) return;
+                }
+            }
+        }else{
+            for(int i = 0; i < grid.grid.length - length; i++){
+                for(int j = 0; j < grid.grid[0].length - length; j++){
+                    this.row += i;
+                    this.col += j;
+                    if(isValidlyPlaced(grid.grid)) return;
                 }
             }
         }
     }
-//    public void handleIntersect(HashMap<Character, int[]> charCoordinates, Grid grid){
-//        for(int i = 0; i < this.length; i++){
-//            // if they are not from the same direction, and contain the same letter
-//            if(charCoordinates.containsKey(this.value.charAt(i)) && this.direction.ordinal() != charCoordinates.get(this.value.charAt(i))[2]){
-//                if(this.direction == Direction.VERTICAL) {
-//                    this.row = charCoordinates.get(this.value.charAt(i))[0];
-//                    this.col = charCoordinates.get(this.value.charAt(i))[1] - i;
-//                }
-//                else if(this.direction == Direction.HORIZONTAL) {
-//                    this.row = charCoordinates.get(this.value.charAt(i))[0] - i;
-//                    this.col = charCoordinates.get(this.value.charAt(i))[1];
-//                }else{
-//                    this.row = charCoordinates.get(this.value.charAt(i))[0] - i;
-//                    this.col = charCoordinates.get(this.value.charAt(i))[1] - i;
-//                }
-//                charCoordinates.remove(this.value.charAt(i));
-//                if(isValidlyPlaced(grid.grid)){
-//                    charCoordinates.remove(this.value.charAt(i));
-//                    return;
-//                }
-//                else{
-//                    grid.add(this.value);
-//                }
-//            }
-//        }
-//    }
-
-//    private int[] intersectWords(Word word){
-//        for(int i = 0; i < this.length; i++){
-//
-//        }
-//    }
-
-//
-//    public void appendAtGrid(char[][] grid){
-//        while(!isValidlyPlaced(grid)){ // repeat task of finding a correct position until necessary
-//            System.out.println("Putting into place, if something is not running the way you want it to,\n then it's probably how you wrote the logic here");
-//
-//        }
-//        desplegate(grid);
-//    }
 
 }
