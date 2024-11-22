@@ -20,6 +20,8 @@ public class Grid {
         // apparently they have to be switched
         grid = new char[rows][cols];
         wordList = new HashMap<>();
+        charCoordinates = new HashMap<>();
+
     }
 
     public boolean isGameFinished(){
@@ -47,7 +49,7 @@ public class Grid {
         Word newWord = new Word(word, rand.nextInt(rows - word.length()), rand.nextInt(cols - word.length()), direction);
         // add it to the list of words
         wordList.put(word, newWord);
-        newWord.handleIntersect(charCoordinates, this.grid);
+        newWord.handleIntersect(charCoordinates, this);
         // append it at the grid
         if(newWord.isValidlyPlaced(this.grid)) {
             newWord.desplegate(grid, charCoordinates);

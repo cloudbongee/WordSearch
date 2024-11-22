@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -71,22 +72,23 @@ public class Word {
     }
 
     public boolean isValidlyPlaced(char[][] grid){
+        if(grid.length < row + length || grid[0].length < col + length ) return false;
         switch(direction){
             case VERTICAL:
                 for(int i = 0; i < this.length; i++){
-                    if(grid[col][row + i] != this.value.charAt(i) && grid[col][row + i] != '\u0000'){
+                    if(grid[row][col + i] != this.value.charAt(i) && grid[row][col + i] != '\u0000'){
                         return false;
                     }
                 }
             case HORIZONTAL:
                 for(int i = 0; i < this.length; i++){
-                    if(grid[col + i][row] != this.value.charAt(i) && grid[col + i][row] != '\u0000'){
+                    if(grid[row + i][col] != this.value.charAt(i) && grid[row + i][col] != '\u0000'){
                         return false;
                     }
                 }
             case DIAGONAL:
                 for(int i = 0; i < this.length; i++){
-                    if(grid[col + i][row + i] != this.value.charAt(i) && grid[col + i][row + i] != '\u0000'){
+                    if(grid[row + i][col + i] != this.value.charAt(i) && grid[row + i][col + i] != '\u0000'){
                         return false;
                     }
                 }
@@ -98,16 +100,15 @@ public class Word {
         return direction;
     }
 
-    public void handleIntersect(HashMap<Character, int[]> letterCoordinates, char[][] grid){
-        System.out.println(value);
+    public void handleIntersect(HashMap<Character, int[]> letterCoordinates, Grid grid){
         for(int i = 0; i < length; i++){
-            System.out.println(value.charAt(i));
             // if there is some letter that could intersect
             if(letterCoordinates.containsKey(this.value.charAt(i))){
                 // if the letter has an opposing direction
                 if(letterCoordinates.get(this.value.charAt(i))[2] != this.direction.ordinal()){
                     try {
-                        // assign row and columns to the coordinates
+                        // assign row and columns to the coordinates, this is done by sliding the word position to the
+                        // letter position
                         if (this.direction == Direction.VERTICAL) {
                             this.row = letterCoordinates.get(this.value.charAt(i))[0];
                             this.col = letterCoordinates.get(this.value.charAt(i))[1] - i;
@@ -119,7 +120,7 @@ public class Word {
                             this.col = letterCoordinates.get(this.value.charAt(i))[1] - i;
                         }
                         // check if the word is validly placed. If it is, remove from the list and return
-                        if (isValidlyPlaced(grid)) {
+                        if (isValidlyPlaced(grid.grid)) {
                             letterCoordinates.remove(this.value.charAt(i));
                             return;
                         }
