@@ -1,4 +1,4 @@
-//package com.gradescope.wordsearch;
+// package com.gradescope.wordsearch;
 
 
 import java.io.*;

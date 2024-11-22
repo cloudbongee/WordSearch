@@ -1,4 +1,4 @@
-//package com.gradescope.wordsearch;
+// package com.gradescope.wordsearch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,13 +58,13 @@ public class Word {
             case VERTICAL:
                 for(int i = 0; i < this.length; i++){
                     grid[row+i][col] = Character.toUpperCase(this.value.charAt(i)); //changed the i from col to row
-                    letterCoordinates.put(this.value.charAt(i), new int[]{row, col+i, direction.ordinal()});
+                    letterCoordinates.put(this.value.charAt(i), new int[]{row + i, col, direction.ordinal()});
                 }
                 break;
             case HORIZONTAL:
                 for(int i = 0; i < this.length; i++){
                     grid[row][col+i] =Character.toUpperCase(this.value.charAt(i));
-                    letterCoordinates.put(this.value.charAt(i), new int[]{row + i, col, direction.ordinal()});
+                    letterCoordinates.put(this.value.charAt(i), new int[]{row, col + i, direction.ordinal()});
                 }
                 break;
             case DIAGONAL:
@@ -80,19 +80,19 @@ public class Word {
         switch(direction){
             case VERTICAL:
                 for(int i = 0; i < this.length; i++){
-                    if(grid[row][col + i] != this.value.charAt(i) && grid[row][col + i] != '\u0000'){
+                    if(grid[row][col + i] != Character.toUpperCase(this.value.charAt(i)) && grid[row][col + i] != '\u0000'){
                         return false;
                     }
                 }
             case HORIZONTAL:
                 for(int i = 0; i < this.length; i++){
-                    if(grid[row + i][col] != this.value.charAt(i) && grid[row + i][col] != '\u0000'){
+                    if(grid[row + i][col] != Character.toUpperCase(this.value.charAt(i)) && grid[row + i][col] != '\u0000'){
                         return false;
                     }
                 }
             case DIAGONAL:
                 for(int i = 0; i < this.length; i++){
-                    if(grid[row + i][col + i] != this.value.charAt(i) && grid[row + i][col + i] != '\u0000'){
+                    if(grid[row + i][col + i] != Character.toUpperCase(this.value.charAt(i)) && grid[row + i][col + i] != '\u0000'){
                         return false;
                     }
                 }

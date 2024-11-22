@@ -20,7 +20,7 @@ class TestGrid {
 		ArrayList<String> words = FindWords.readFile(reader);
 		reader.close();
 		
-		File gridFile = new File("output_words.txt");
+		File gridFile = new File("/Users/jbm/IdeaProjects/WordSearch/src/output_words.txt");
 		Scanner gridReader = new Scanner(gridFile);
 		
 		ArrayList<String> grid = FindWords.readFile(gridReader);

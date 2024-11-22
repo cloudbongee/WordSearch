@@ -1,4 +1,4 @@
-//package com.gradescope.wordsearch;
+// package com.gradescope.wordsearch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,7 +81,7 @@ public class Grid {
             result.append(row);
         }
 
-        return result.toString().trim();
+        return result.toString();
     }
 
 
