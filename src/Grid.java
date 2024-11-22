@@ -1,83 +1,86 @@
+import com.sun.source.tree.CaseTree;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 public class Grid {
     private int rows;
     private int cols;
-    private char[][] grid;
-    private HashMap<String, Boolean> words; //
-    private HashMap<String, int[]> wordCoordinates;
+    public char[][] grid;
+    private HashMap<String,Word> wordList;
+    private HashMap<Character, int[]> charCoordinates;
     private Random rand = new Random();
 
-    public Grid(int rows, int cols, ArrayList<String> inputWords){
+    public Grid(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.grid = new char[rows][cols];
-        // initiate a tracking of the guessing of the words by initiating them as false
-        inputWords.forEach(key -> {
 
-            // add the grid tracking to the word
-            words.put(key, false);
-
-
-            // generate a random integer for the word position and direction
-            int newRow = rand.nextInt(0,rows);
-            int newCol = rand.nextInt(0,cols);
-            // generate which direction the words have to be facing
-            int direction = rand.nextInt(0,3);
-        });
+        // apparently they have to be switched
+        grid = new char[rows][cols];
+        wordList = new HashMap<>();
     }
 
-    private void fill(){
-
-
-        // O(n^2) algorithm that places the words
-        for(String word : words.keySet()){
-
-            // if it's impossible to place a word just don't do it...
-            if(word.length() >= this.grid.length || word.length() >= this.grid[0].length){
-                throw new IllegalArgumentException("The word given is way larger than the grid");
+    public boolean isGameFinished(){
+        boolean result = true;
+        for(Word word : wordList.values()){
+            if(!word.isGuessed()){
+                result = false;
             }
+        }
+        return result;
+    }
 
-            switch(direction){
-                case 0:
-                    {}
-                case 1:
-                    {}
-                case 2:
-                    {}
+    public void add(String word){
+        Word.Direction direction;
+        int directionDecision = rand.nextInt(1,4);
+        if(directionDecision == 1){
+            direction = Word.Direction.DIAGONAL;
+        }else if(directionDecision == 2){
+            direction = Word.Direction.HORIZONTAL;
+        }else if(directionDecision == 3){
+            direction = Word.Direction.VERTICAL;
+        }else { direction = null; }
+
+        // create a new word,
+        Word newWord = new Word(word, rand.nextInt(rows - word.length()), rand.nextInt(cols - word.length()), direction);
+        // add it to the list of words
+        wordList.put(word, newWord);
+        newWord.handleIntersect(charCoordinates, this.grid);
+        // append it at the grid
+        if(newWord.isValidlyPlaced(this.grid)) {
+            newWord.desplegate(grid, charCoordinates);
+        }else{
+            add(newWord.getValue());
+        }
+
+    }
+
+    public void fillEmpty(){
+        for(int i =0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                if(grid[i][j]=='\u0000')grid[i][j] = (char) rand.nextInt(65,91);
             }
         }
     }
 
-    private void addDiagonal(String word, int row, int col) throws IllegalArgumentException{
-
-        // if the dimensions are invalid, switch them
-        if(row + word.length() >= this.grid.length || col + word.length() >= this.grid[0].length){
-            while(row + word.length() >= this.grid.length || col + word.length() >= this.grid[0].length){
-                row--;
-                col--;
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for(int i = 0; i < rows; i++){
+            String row = "";
+            for(int j = 0; j < cols; j++){
+                row += " " + grid[i][j];
             }
+            row.trim();
+            row += "\n";
+            result.append(row);
         }
-        // the case it intersects with another word
-        for (int i = 0; i < word.length(); i++){
-            // if one of the letters is invalid then analyze the wordlist
-            if(this.grid[row][col] != '\u0000' || this.grid[row][col] != word.charAt(i)){
-
-            }
-        }
-        for (int i = 0; i < word.length(); i++) this.grid[row + i][col + i] = word.charAt(i);
-
+        return result.toString();
     }
 
-    private static void addHorizontal(){
 
-    }
-
-    private static void addVertical(){
-
-    }
 
 
 }
