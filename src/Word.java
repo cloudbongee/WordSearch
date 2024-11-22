@@ -1,4 +1,4 @@
-package com.gradescope.wordsearch;
+//package com.gradescope.wordsearch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,13 +57,13 @@ public class Word {
         switch(direction){
             case VERTICAL:
                 for(int i = 0; i < this.length; i++){
-                    grid[row][col+i] = Character.toUpperCase(this.value.charAt(i));
+                    grid[row+i][col] = Character.toUpperCase(this.value.charAt(i)); //changed the i from col to row
                     letterCoordinates.put(this.value.charAt(i), new int[]{row, col+i, direction.ordinal()});
                 }
                 break;
             case HORIZONTAL:
                 for(int i = 0; i < this.length; i++){
-                    grid[row+i][col] =Character.toUpperCase(this.value.charAt(i));
+                    grid[row][col+i] =Character.toUpperCase(this.value.charAt(i));
                     letterCoordinates.put(this.value.charAt(i), new int[]{row + i, col, direction.ordinal()});
                 }
                 break;

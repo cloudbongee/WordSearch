@@ -10,7 +10,7 @@ class TestGrid {
 
 	@Test
 	void test() throws FileNotFoundException {
-		File wordsFile = new File("words.txt");
+		File wordsFile = new File("/Users/jbm/IdeaProjects/WordSearch/src/words.txt");
 		Scanner reader = new Scanner(wordsFile);
 		
 		String[] wAndH = reader.nextLine().split(" ");
