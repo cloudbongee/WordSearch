@@ -83,6 +83,14 @@ public class Word {
         return matched;
     }
 
+
+    private char representation(int i){
+        if(matched){
+            return '*';
+        }
+        return Character.toUpperCase(value.charAt(i));
+    }
+
     /**
      * The desplegate class (I called it like that because my english is not good), represents the string in the parameter
      * grid
@@ -93,18 +101,19 @@ public class Word {
         switch(direction){
             case VERTICAL:
                 for(int i = 0; i < this.length; i++){
-                    grid[row][col+i] = Character.toUpperCase(this.value.charAt(i)); //changed the i from col to row
+                    grid[row + i][col] = representation(i); //changed the i from col to row
                 }break;
             case HORIZONTAL:
                 for(int i = 0; i < this.length; i++){
-                    grid[row+i][col] =Character.toUpperCase(this.value.charAt(i));
+                    grid[row][col + i] =  representation(i);
                 }break;
             case DIAGONAL:
                 for(int i = 0; i < this.length; i++){
-                    grid[row+i][col+i] = Character.toUpperCase(this.value.charAt(i));
+                    grid[row+i][col+i] = representation(i);
                 }break;
         }
     }
+
 
     /**
      * The isValidlyPlaced boolean represents wether or not the extension of a word added should or should not be, it
@@ -118,13 +127,13 @@ public class Word {
         switch(direction){
             case VERTICAL:
                 for(int i = 0; i < this.length; i++){
-                    if(grid[row][col + i] != Character.toUpperCase(this.value.charAt(i)) && grid[row][col + i] != '\u0000'){
+                    if(grid[row + i][col] != Character.toUpperCase(this.value.charAt(i)) && grid[row][col + i] != '\u0000'){
                         return false;
                     }
                 }
             case HORIZONTAL:
                 for(int i = 0; i < this.length; i++){
-                    if(grid[row + i][col] != Character.toUpperCase(this.value.charAt(i)) && grid[row + i][col] != '\u0000'){
+                    if(grid[row][col + i] != Character.toUpperCase(this.value.charAt(i)) && grid[row + i][col] != '\u0000'){
                         return false;
                     }
                 }
@@ -160,5 +169,12 @@ public class Word {
         return direction;
     }
 
+    public boolean match(String word, int x, int y, Direction inputDirection, char[][] grid){
+        if(word.equalsIgnoreCase(this.value) && this.row == x && this.col == y && this.direction.equals(inputDirection)){
+            toggleMatched(); // change the word to true
+            return true;
+        }
+        return false;
+    }
 
 }

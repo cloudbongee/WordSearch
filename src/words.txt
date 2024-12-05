@@ -1,4 +1,4 @@
-20 20
+12 12
 amazing
 zoo
 house

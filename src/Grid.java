@@ -54,6 +54,7 @@ public class Grid {
 
         // create a new word, inside the bounds
         Word newWord = new Word(word, rand.nextInt(rows - word.length()), rand.nextInt(cols - word.length()), direction);
+        wordList.put(word,newWord);
 
         // if it is not correctly positioned, find a new one
         if(!newWord.isValidlyPlaced(grid) && newWord.isPlaceable(grid)){
@@ -61,9 +62,6 @@ public class Grid {
         }else{
             newWord.desplegate(grid); // represent in the grid
         }
-
-        wordList.put(word,newWord);
-
     }
 
     // adds a random letter of the english alphabet to the grid when it is empty
@@ -78,9 +76,16 @@ public class Grid {
     // represent the grid as a string for printing or pouring into a file
     @Override
     public String toString() {
+        // add header
         StringBuilder result = new StringBuilder(); // iterate from row to column
+        result.append("   ");
+        for(int i = 0; i < cols; i++){
+            result.append((char) (i + 97)).append(" ");
+        }result.append('\n');
+
+        // add content
         for(int i = 0; i < rows; i++){
-            String row = "";
+            String row = String.format("%02d", i) + " ";
             for(int j = 0; j < cols; j++){
                 row += grid[i][j] + " ";
             }
@@ -103,4 +108,52 @@ public class Grid {
         }
         return result;
     }
+
+    /**
+     * Separate the words into a list of matched an unmatched, redraw the grid by word such that the matched array
+     * is drawn first, then the unmatched array, this avoids loss of information when
+     */
+    private void redraw(){
+        ArrayList<Word> tempMatched = new ArrayList<>();
+        ArrayList<Word> tempUnmatched = new ArrayList<>();
+        for(Word listed: wordList.values()){
+            if(listed.isGuessed()) tempMatched.add(listed);
+            else tempUnmatched.add(listed);
+        }
+        for(Word matched:   tempMatched  ) matched.desplegate(grid);
+        for(Word unmatched: tempUnmatched) unmatched.desplegate(grid);
+    }
+
+    /**
+     * @param word: Word which match is searched for in the grid
+     * @param x: coordinate in the grid
+     * @param y: second coordinate in the grid
+     * @param direction: String matched to a enum from the word class
+     * @return: boolean argumenting wether the word has matched.
+     * @throws IllegalArgumentException in the case the given direction is not valid
+     */
+    public boolean match(String word, int x, int y, String direction) throws IllegalArgumentException {
+
+        if(wordList.containsKey(word)){
+            Word.Direction directionEnum;
+            if(direction.equalsIgnoreCase("H") || direction.equalsIgnoreCase("HORIZONTAL")){
+                directionEnum = Word.Direction.HORIZONTAL;
+            }else if(direction.equalsIgnoreCase("V") || direction.equalsIgnoreCase("VERTICAL")) {
+                directionEnum = Word.Direction.VERTICAL;
+            }else if(direction.equalsIgnoreCase("D") || direction.equalsIgnoreCase("DIAGONAL")) {
+                directionEnum = Word.Direction.DIAGONAL;
+            }else{
+                throw new IllegalArgumentException("Invalid direction " + direction);
+            }
+
+            boolean matchResult = wordList.get(word).match(word,x,y,directionEnum, this.grid);
+            redraw();
+
+            return matchResult;
+        }else{
+            return false; // return false so the message for invalid word is thrown
+        }
+
+    }
+
 }
