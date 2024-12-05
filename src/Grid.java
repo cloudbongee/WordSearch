@@ -56,7 +56,6 @@ public class Grid {
         Word newWord = new Word(word, rand.nextInt(rows - word.length()), rand.nextInt(cols - word.length()), direction);
         wordList.put(word,newWord);
 
-        // if it is not correctly positioned, find a new one
         if(!newWord.isValidlyPlaced(grid) && newWord.isPlaceable(grid)){
             add(word, rand.nextInt(3));
         }else{

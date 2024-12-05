@@ -1,13 +1,13 @@
    a b c d e f g h i j k l 
-00 C A J H F N V S C N V P 
-01 Z R C A O U A K E J S X 
-02 A G O O M U D P Y D T L 
-03 A S T E A A S G K J D L 
-04 H N C B S F Z E E I D F 
-05 J N L O R S E I Q X N M 
-06 C A M M N O A E N P Z Y 
-07 O X M I O E W N E G K U 
-08 D Z O O L U F N T P K J 
-09 D S I Z P K S I I T N O 
-10 L D Y Q O J W E R E R Y 
-11 N I C G K F Q P Q E Z L 
+00 A V C N F M O U S E R K 
+01 L F C O U X T I J Y E Z 
+02 T G C R F B E O C D K S 
+03 B M S A O F A O K B O V 
+04 N R I C M I E Y K O Z U 
+05 F A O L O A S E H S J Y 
+06 H U P W K N Z S D V Y N 
+07 P O D K N O E I A N C D 
+08 A B U G I I Z O O N A M 
+09 Q X C S E N E G E G T O 
+10 V E J D E T E V R I U G 
+11 J O P D H H N K L Z B K 

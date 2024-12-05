@@ -82,7 +82,12 @@ public class Word {
     public boolean isGuessed(){
         return matched;
     }
-
+    public void setRow(int i){
+        this.row = i;
+    }
+    public void setCol(int i){
+        this.col = i;
+    }
 
     private char representation(int i){
         if(matched){

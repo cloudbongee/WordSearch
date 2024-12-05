@@ -7,13 +7,16 @@ import java.util.Scanner;
 
 /**
  * The WordSearch class implements the functionalities of the classes within the WordSearch project,
- * it scans a file and outputs one to create a collection of randomized word-search puzzles
+ * it scans a file and outputs one to create a collection of randomized word-search puzzles. It also permits
+ * playing the game on the terminal in which it is called.
  * @author Jaime Meyer Beilis Michel
- * @since november 22, 2024, Fall 2024 semester at the University of arizona
- *
+ * @since December 4 2024, fall 2024 semester, university of arizona
  * The user needs to utilize this by adding a filename argument when calling this java class.
  * Such that the input in a terminal would be:
  * java WordSearch.java /path/to/file.txt
+ *
+ * To play, the user has to follow the input instructions on the screen, where they will be prompted to describe the
+ * word they have found and its location in the grid relative to the rows and columns.
  */
 public class WordSearch {
     public static void main(String[] args) throws IOException { // main engine of the java, read file, act from there
